@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#06101d">
+<meta name="description" content="JARVIS - Pannello di attivazione accesso remoto">
+<link rel="manifest" href="manifest.webmanifest">
+<title>J.A.R.V.I.S. — Accesso remoto</title>
+<style>
+:root{color-scheme:dark;--bg:#050d18;--panel:#0a1b2c;--line:#16496a;--cyan:#36cfff;--blue:#168bd0;--muted:#8fb6ca;--green:#4df0a1;--amber:#ffc766}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 32%,#0b3150 0,#071525 42%,#030811 100%);color:#eafaff;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.18;background-image:linear-gradient(rgba(54,207,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(54,207,255,.13) 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(to bottom,black,transparent 85%)}
+main{max-width:540px;margin:auto;padding:env(safe-area-inset-top) 16px calc(28px + env(safe-area-inset-bottom));position:relative}
+header{display:flex;justify-content:space-between;align-items:center;padding:23px 4px 15px;border-bottom:1px solid #16496a}
+.brand{font-weight:900;letter-spacing:.17em;font-size:clamp(23px,6vw,32px);color:#70dcff;text-shadow:0 0 18px #168bd0}
+.sub{font-size:10px;letter-spacing:.19em;color:#9ccfe5;margin-top:3px}.version{border:1px solid #24658a;border-radius:20px;padding:6px 11px;color:#9fdfff;font-size:11px}
+.status{margin:18px 0 10px;padding:12px 14px;border:1px solid #1c597b;background:#092037b8;border-radius:13px;display:flex;justify-content:space-between;align-items:center}
+.status strong{font-size:12px;letter-spacing:.12em;color:#a9eaff}.pill{font-size:11px;color:var(--amber);display:flex;align-items:center;gap:7px}.dot{width:8px;height:8px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px currentColor}
+.core{height:270px;display:grid;place-items:center;position:relative;margin:6px 0 10px}
+.ring{position:absolute;border:1px solid #168bd080;border-radius:50%;width:235px;height:235px;box-shadow:0 0 28px #0879bc30,inset 0 0 28px #0879bc20}
+.ring:before,.ring:after{content:"";position:absolute;inset:13px;border:1px dashed #35cfff80;border-radius:50%}
+.ring:after{inset:32px;border-style:solid;border-color:#168bd080}
+.ring.spin{animation:spin 16s linear infinite}.ring.reverse{width:195px;height:195px;animation:spin 11s linear infinite reverse;border-width:2px;border-left-color:transparent;border-right-color:transparent}
+@keyframes spin{to{transform:rotate(360deg)}}
+.coretext{z-index:1;text-align:center}.chip{font-size:49px;filter:drop-shadow(0 0 15px #28bfff);color:#5bd8ff}.coretext h2{font-size:17px;letter-spacing:.12em;margin:8px 0 4px}.coretext p{font-size:11px;color:var(--muted);margin:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{border:1px solid #16496a;background:linear-gradient(145deg,#0b2238dd,#071522dd);border-radius:12px;padding:13px;min-height:76px}.tile small{display:block;color:#8fb6ca;font-size:10px;letter-spacing:.12em;margin-bottom:8px}.tile b{font-size:13px;font-weight:650}.tile .value{display:flex;align-items:center;gap:8px}.tile .dot{background:#849eae;color:#849eae}
+.activate{width:100%;margin:19px 0 13px;border:1px solid #35cfff;border-radius:18px;padding:18px 12px;background:linear-gradient(180deg,#0d4164,#08213a);color:white;box-shadow:0 0 25px #008bd555,inset 0 0 20px #168bd033;text-align:center;cursor:pointer;transition:.2s}
+.activate:active{transform:scale(.985);box-shadow:0 0 38px #00bfff88}.power{font-size:28px;display:block;color:#70e0ff}.activate strong{display:block;font-size:16px;letter-spacing:.12em;margin-top:7px}.activate span:last-child{font-size:11px;color:#a6d7ed;display:block;margin-top:5px}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin:12px 0 18px}.step{text-align:center;color:#84a9bd;font-size:10px}.step i{display:grid;place-items:center;margin:0 auto 7px;width:34px;height:34px;border:1px solid #285d7c;border-radius:50%;font-style:normal;color:#9bdfff}.step.active i{border-color:#3ad5ff;box-shadow:0 0 16px #20baff;color:white}
+.log{border:1px solid #1b5a7b;border-radius:13px;background:#04101c;padding:13px}.loghead{display:flex;justify-content:space-between;color:#60d9ff;font-size:11px;letter-spacing:.12em;margin-bottom:10px}.logline{font:11px/1.8 ui-monospace,SFMono-Regular,monospace;color:#a6c7d8;overflow-wrap:anywhere}.logline em{font-style:normal;color:var(--green)}.foot{text-align:center;color:#477d9b;font-size:10px;letter-spacing:.25em;margin:19px 0 5px}
+.note{font-size:11px;line-height:1.5;color:#8fb6ca;margin:12px 3px}.toast{display:none;margin-top:10px;padding:11px;border:1px solid #b17b2d;border-radius:10px;color:#ffdaa0;background:#38260c;font-size:12px;line-height:1.45}
+@media(prefers-reduced-motion:reduce){.ring{animation:none}.activate{transition:none}}
+</style>
+</head>
+<body>
+<main>
+<header><div><div class="brand">J.A.R.V.I.S.</div><div class="sub">CENTRO DI CONTROLLO REMOTO</div></div><div class="version">v1.0</div></header>
+<div class="status"><strong>STATO SISTEMA</strong><div class="pill"><span class="dot"></span><span id="systemState">IN ATTESA</span></div></div>
+<section class="core" aria-label="Nucleo grafico JARVIS"><div class="ring spin"></div><div class="ring reverse"></div><div class="coretext"><div class="chip">◈</div><h2>NUCLEO JARVIS</h2><p>Raspberry Pi · modulo remoto</p></div></section>
+<section class="grid">
+<div class="tile"><small>COLLEGAMENTO SSH</small><div class="value"><span class="dot"></span><b>Da verificare</b></div></div>
+<div class="tile"><small>RETE DOMESTICA</small><div class="value"><span class="dot"></span><b>In attesa</b></div></div>
+<div class="tile"><small>TAILSCALE VPN</small><div class="value"><span class="dot"></span><b>Non attivo</b></div></div>
+<div class="tile"><small>ACCESSO REMOTO</small><div class="value"><span class="dot"></span><b>Non configurato</b></div></div>
+</section>
+<button class="activate" id="activate"><span class="power">⏻</span><strong>AVVIA ATTIVAZIONE</strong><span>Apri la procedura sicura sul dispositivo</span></button>
+<section class="steps">
+<div class="step active"><i>01</i>Verifica<br>sistema</div><div class="step"><i>02</i>Installa<br>Tailscale</div><div class="step"><i>03</i>Autorizza<br>dispositivo</div><div class="step"><i>04</i>Accesso<br>remoto</div>
+</section>
+<section class="log"><div class="loghead"><b>REGISTRO OPERAZIONI</b><span>● PRONTO</span></div>
+<div class="logline">[SISTEMA] Interfaccia inizializzata</div><div class="logline">[SSH] In attesa di avvio della procedura</div><div class="logline">[VPN] Autenticazione non ancora eseguita</div><div class="logline">[SICUREZZA] Nessuna password salvata nella pagina</div>
+</section>
+<div class="toast" id="toast">Per avviare la procedura, installa e configura prima il Comando Rapido Apple “ATTIVA JARVIS REMOTO”. Questo pulsante apre il comando; non dichiara che il Raspberry sia già collegato.</div>
+<p class="note">Questa pagina è il pannello grafico. L'installazione e l'attivazione reali vengono eseguite dal Comando Rapido sul Wi‑Fi di casa. Non inserire password in questa pagina.</p>
+<div class="foot">INTELLIGENZA · CONTROLLO · SICUREZZA</div>
+</main>
+<script>
+const btn=document.getElementById('activate'), toast=document.getElementById('toast');
+btn.addEventListener('click',()=>{
+  const shortcutName='ATTIVA JARVIS REMOTO';
+  toast.style.display='block';
+  toast.textContent='Apertura del Comando Rapido Apple… Se iOS chiede conferma, autorizza l’apertura. Se il comando non è installato, torna qui dopo averlo aggiunto.';
+  window.location.href='shortcuts://run-shortcut?name='+encodeURIComponent(shortcutName);
+});
+if('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
+}
+</script>
+</body></html>

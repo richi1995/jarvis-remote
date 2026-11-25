@@ -1,0 +1,10 @@
+{
+  "name": "J.A.R.V.I.S. - Centro di controllo remoto",
+  "short_name": "JARVIS",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#050d18",
+  "theme_color": "#06101d",
+  "lang": "it",
+  "description": "Pannello grafico per avviare la procedura di accesso remoto JARVIS."
+}
